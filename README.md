@@ -1,4 +1,5 @@
 # Альтернативная прошивка ZMAi-90 с поддержкой Mqtt.
+![PROJECT_PHOTO](https://github.com/alutov/zmai-90_mqtt_gateway/blob/master/jpg/web1.jpg)
 ### ENG<br>
 [Use Google to translate into English.](https://translate.google.com/translate?hl=ru&sl=ru&tl=en&u=https%3A%2F%2Fgithub.com%2Falutov%2Fzmai-90_mqtt_gateway%2Fblob%2Fmaster%2FREADME.md)<br>
 ### RUS<br>
