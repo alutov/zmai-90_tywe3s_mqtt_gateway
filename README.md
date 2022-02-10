@@ -8,4 +8,4 @@
 ![PROJECT_PHOTO](https://github.com/alutov/zmai-90_mqtt_gateway/blob/main/jpg/web2.jpg)
 <br>
 # Сборка проекта
-&emsp; Для сборки бинарных файлов использован  [ESP8266_RTOS_SDK (IDF Style) версии 3.2](https://codeload.github.com/espressif/ESP8266_RTOS_SDK/zip/v3.2) c [описанием](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/latest/) и [toolchain 5.2.0](https://dl.espressif.com/dl/xtensa-lx106-elf-win32-1.22.0-92-g8facf4c-5.2.0.tar.gz).<br>
+&emsp; Для сборки бинарных файлов использован  [ESP8266_RTOS_SDK (IDF Style) версии 3.2](https://codeload.github.com/espressif/ESP8266_RTOS_SDK/zip/v3.2) c [описанием](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/latest/) и [toolchain 5.2.0](https://dl.espressif.com/dl/xtensa-lx106-elf-win32-1.22.0-92-g8facf4c-5.2.0.tar.gz). Более свежую библиотеку esp-mqtt взял [тут](https://github.com/looi/ESP8266_RTOS_SDK).<br>
