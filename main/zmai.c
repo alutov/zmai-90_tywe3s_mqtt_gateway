@@ -6,7 +6,7 @@ Use for compilation ESP-IDF Programming Guide:
 https://docs.espressif.com/projects/esp8266-rtos-sdk/en/latest/
 ****************************************************************
 */
-#define AP_VER "2022.04.12"
+#define AP_VER "2023.02.17"
 #include "zmai.h"
 
 
@@ -197,16 +197,19 @@ void MqttPubSub () {
 	strcpy(buft,MQTT_BASE_TOPIC);
 	strcat(buft,"/status");
 	esp_mqtt_client_publish(mqttclient, buft, "online", 0, 1, 1);
-	strcpy(buft,MQTT_BASE_TOPIC);
-	strcat(buft,"/state");
-	esp_mqtt_client_subscribe(mqttclient, buft, 0);
-	if (FDHass && tESP8266Addr[0]) {
-//
 	tcpip_adapter_ip_info_t ipInfo;
 	char wbuff[256];
 	memset(wbuff,0,32);
 	tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_STA, &ipInfo);
 	sprintf(wbuff, "%d.%d.%d.%d", IP2STR(&ipInfo.ip));
+	strcpy(buft,MQTT_BASE_TOPIC);
+	strcat(buft,"/ip");
+	esp_mqtt_client_publish(mqttclient, buft, wbuff, 0, 1, 1);
+	strcpy(buft,MQTT_BASE_TOPIC);
+	strcat(buft,"/state");
+	esp_mqtt_client_subscribe(mqttclient, buft, 0);
+	if (FDHass && tESP8266Addr[0]) {
+//
 	strcpy(buft,"homeassistant/sensor/");
 	strcat(buft,MQTT_BASE_TOPIC);
 	strcat(buft,"/1x");
@@ -581,6 +584,8 @@ static esp_err_t mqtt_event_handler(esp_mqtt_event_handle_t event)
 	iprevRssiESP = 0;
 	MqttPubSub ();
 	mqttConnected = true;
+	NumMqConn++;
+	if (!NumMqConn) NumMqConn--;
 	break;
 
 	case MQTT_EVENT_DISCONNECTED:
@@ -743,6 +748,7 @@ static void mqtt_app_start(void)
 	.uri = luri,
 	.lwt_topic = llwtt,
 	.lwt_msg = "offline",
+	.lwt_retain = 1,
 	.keepalive = 60,
 	.client_id = MQTT_CLIENT_NAME,
 	.buffer_size = 2048,
@@ -771,9 +777,11 @@ static esp_err_t wifi_event_handler(void *ctx, system_event_t *event)
 
 	case SYSTEM_EVENT_STA_GOT_IP:
 		xEventGroupSetBits(wifi_event_group, WIFI_CONNECTED_BIT);
+		s_retry_num = 0;
 		if (floop && MQTT_SERVER[0]) esp_mqtt_client_reconnect(mqttclient);
 //		if (floop && MQTT_SERVER[0]) esp_mqtt_client_start(mqttclient);
-		s_retry_num = 0;
+		NumWfConn++;
+		if (!NumWfConn) NumWfConn--;
 
             break;
 	case SYSTEM_EVENT_STA_DISCONNECTED:
@@ -851,7 +859,6 @@ void wifi_init_sta(void)
 /* HTTP GET main handler */
 static esp_err_t pmain_get_handler(httpd_req_t *req)
 {
-	int FreeMem = esp_get_free_heap_size();
 	char bufip[32] = {0};
 	time_t now;
 	char strftime_buf[64];
@@ -868,7 +875,15 @@ static esp_err_t pmain_get_handler(httpd_req_t *req)
 //ESP_LOGI(TAG,"Ip from header %s", bufip); 
         }
     }
-	char bsend[12000];
+//	char bsend[12000];
+	char *bsend = NULL;
+	bsend = malloc(12000);
+	if (bsend == NULL) {
+	MemErr++;
+	if (!MemErr) MemErr--;
+//
+	} else {	
+	int FreeMem = esp_get_free_heap_size();
         char buff[64];
 	strcpy(bsend,"<!DOCTYPE html><html>");
 	strcat(bsend,"<head><title>ZMAi</title>");
@@ -956,20 +971,26 @@ static esp_err_t pmain_get_handler(httpd_req_t *req)
         buff[31] = 0;
 	memcpy(buff,wifidata.ssid,31);
         strcat(bsend,buff);
-	strcat(bsend,"</td></tr><tr><td>WiFi RSSI</td><td>");
+	strcat(bsend,"</td></tr><tr><td>WiFi connection count / RSSI</td><td>");
+	itoa(NumWfConn,buff,10);
+	strcat(bsend,buff);
+	strcat(bsend," / ");
         itoa(wifidata.rssi,buff,10);
 	strcat(bsend,buff);
         strcat(bsend," dB</td></tr><tr><td>WiFi IP address</td><td>");
         strcat(bsend,bufip);
 	strcat(bsend,"</td></tr>");
 	}
-	strcat(bsend,"<tr><td>MQTT server:port/state</td><td>");
+	strcat(bsend,"<tr><td>MQTT server:port</td><td>");
         if (MQTT_SERVER[0]) strcat(bsend,MQTT_SERVER);
 	strcat(bsend,":");
 	itoa(mqtt_port,buff,10);
 	strcat(bsend,buff);
-        (mqttConnected)? strcat(bsend,"/Connected") : strcat(bsend,"/Disconnected");
-
+	strcat(bsend,"<tr><td>MQTT connection count / state</td><td>");
+	itoa(NumMqConn,buff,10);
+	strcat(bsend,buff);
+	strcat(bsend," / ");
+        (mqttConnected)? strcat(bsend,"Connected") : strcat(bsend,"Disconnected");
 	strcat(bsend,"</td></tr></table><br><span style=\"font-size: 0.9em\">Running for ");
 	uptime_string_exp(buff);
 	strcat(bsend,buff);
@@ -986,7 +1007,8 @@ static esp_err_t pmain_get_handler(httpd_req_t *req)
 	httpd_resp_send(req, bsend, strlen(bsend));
 
 
-
+	free(bsend);
+	}
     return ESP_OK;
 }
 
@@ -1056,7 +1078,14 @@ static const httpd_uri_t presetesp = {
 /* HTTP GET setting handler */
 static esp_err_t psetting_get_handler(httpd_req_t *req)
 {
-	char bsend[10000];
+//	char bsend[10000];
+	char *bsend = NULL;
+	bsend = malloc(10000);
+	if (bsend == NULL) {
+	MemErr++;
+	if (!MemErr) MemErr--;
+//
+	} else {	
         char buff[32];
 	strcpy(bsend,"<!DOCTYPE html><html>");
 	strcat(bsend,"<head><title>ZMAi</title>");
@@ -1130,6 +1159,8 @@ static esp_err_t psetting_get_handler(httpd_req_t *req)
 //strcat(bsend,buff);
 
 	httpd_resp_send(req, bsend, strlen(bsend));
+	free(bsend);
+	}
     return ESP_OK;
 }
 
@@ -1416,6 +1447,7 @@ Content-Type: application/octet-stream\r\n\r\n
 	mystrcpy(filnam, otabuf+otabufoffs, 127);
 // search for data begin
 	otabufoffs = parsoff(otabuf,"application/octet-stream\r\n\r\n", otabufsize);
+	if (!otabufoffs) otabufoffs = parsoff(otabuf,"application/macbinary\r\n\r\n", otabufsize);
 	if (!otabufoffs) {
 //	ESP_LOGE(TAG, "application/octet-stream not found");
 	ota_running = false;
@@ -1501,7 +1533,7 @@ httpd_handle_t start_webserver(void)
 	httpd_config_t config = HTTPD_DEFAULT_CONFIG();
 	config.max_uri_handlers = 16;
 //	config.max_resp_headers =16;
-	config.stack_size = 20480;
+	config.stack_size = 8192;
 
     // Start the httpd server
 /*
@@ -1867,6 +1899,8 @@ void app_main()
 	s_retry_num = 0;
 	mqtdel = 0;
 	floop = 0;
+	NumWfConn = 0;
+	NumMqConn = 0;
 	mqttConnected = false;
 	MQTT_USER[0] = 0;
 	MQTT_PASSWORD[0] = 0;

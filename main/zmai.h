@@ -42,6 +42,9 @@
 uint8_t zmainum = 9;                      //zmai number
 uint8_t zmainumo = 9;                     //zmai number
 uint16_t mqtt_port  = 1883;
+uint32_t NumWfConn;
+uint32_t NumMqConn;
+uint32_t MemErr;
 
 esp_mqtt_client_handle_t mqttclient; 
 bool mqttConnected =false;
