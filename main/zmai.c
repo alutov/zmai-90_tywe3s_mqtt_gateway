@@ -6,7 +6,7 @@ Use for compilation ESP-IDF Programming Guide:
 https://docs.espressif.com/projects/esp8266-rtos-sdk/en/latest/
 ****************************************************************
 */
-#define AP_VER "2023.05.20"
+#define AP_VER "2023.08.04"
 #include "zmai.h"
 
 
@@ -218,12 +218,8 @@ void MqttPubSub () {
 	strcat(buft,"/1x");
 	strcat(buft,tESP8266Addr);
 	strcat(buft,"/config");
-	strcpy(bufd,"{\"name\":\"ZMAi");
-	if (zmainum)  {
-	itoa(zmainum,buff,10);
-	strcat(bufd, buff);
-	}
-	strcat(bufd,".Rssi\",\"icon\":\"mdi:wifi\",\"uniq_id\":\"Rssi_");
+	strcpy(bufd,"{\"name\":\"");
+	strcat(bufd,"Rssi\",\"icon\":\"mdi:wifi\",\"uniq_id\":\"Rssi_");
 	strcat(bufd,tESP8266Addr);
 	strcat(bufd,"\",\"device\":{\"identifiers\":[\"ZMAi_");
 	strcat(bufd,tESP8266Addr);
@@ -252,12 +248,8 @@ void MqttPubSub () {
 	strcat(buft,"/2x");
 	strcat(buft,tESP8266Addr);
 	strcat(buft,"/config");
-	strcpy(bufd,"{\"name\":\"ZMAi");
-	if (zmainum)  {
-	itoa(zmainum,buff,10);
-	strcat(bufd, buff);
-	}
-	strcat(bufd,".Switch\",\"icon\":\"mdi:power-plug\",\"uniq_id\":\"Switch_");
+	strcpy(bufd,"{\"name\":\"");
+	strcat(bufd,"Switch\",\"icon\":\"mdi:power-plug\",\"uniq_id\":\"Switch_");
 	strcat(bufd,tESP8266Addr);
 	strcat(bufd,"\",\"device\":{\"identifiers\":[\"ZMAi_");
 	strcat(bufd,tESP8266Addr);
@@ -288,12 +280,8 @@ void MqttPubSub () {
 	strcat(buft,"/1x");
 	strcat(buft,tESP8266Addr);
 	strcat(buft,"/config");
-	strcpy(bufd,"{\"name\":\"ZMAi");
-	if (zmainum)  {
-	itoa(zmainum,buff,10);
-	strcat(bufd, buff);
-	}
-	strcat(bufd,".Restart\",\"icon\":\"mdi:restart\",\"uniq_id\":\"Restart_");
+	strcpy(bufd,"{\"name\":\"");
+	strcat(bufd,"Restart\",\"icon\":\"mdi:restart\",\"uniq_id\":\"Restart_");
 	strcat(bufd,tESP8266Addr);
 	strcat(bufd,"\",\"device\":{\"identifiers\":[\"ZMAi_");
 	strcat(bufd,tESP8266Addr);
@@ -322,12 +310,8 @@ void MqttPubSub () {
 	strcat(buft,"/3x");
 	strcat(buft,tESP8266Addr);
 	strcat(buft,"/config");
-	strcpy(bufd,"{\"name\":\"ZMAi");
-	if (zmainum)  {
-	itoa(zmainum,buff,10);
-	strcat(bufd, buff);
-	}
-	strcat(bufd,".Voltage\",\"icon\":\"mdi:alpha-v-circle-outline\",\"uniq_id\":\"Voltage_");
+	strcpy(bufd,"{\"name\":\"");
+	strcat(bufd,"Voltage\",\"icon\":\"mdi:alpha-v-circle-outline\",\"uniq_id\":\"Voltage_");
 	strcat(bufd,tESP8266Addr);
 	strcat(bufd,"\",\"device\":{\"identifiers\":[\"ZMAi_");
 	strcat(bufd,tESP8266Addr);
@@ -356,12 +340,8 @@ void MqttPubSub () {
 	strcat(buft,"/4x");
 	strcat(buft,tESP8266Addr);
 	strcat(buft,"/config");
-	strcpy(bufd,"{\"name\":\"ZMAi");
-	if (zmainum)  {
-	itoa(zmainum,buff,10);
-	strcat(bufd, buff);
-	}
-	strcat(bufd,".Current\",\"icon\":\"mdi:alpha-a-circle-outline\",\"uniq_id\":\"Current_");
+	strcpy(bufd,"{\"name\":\"");
+	strcat(bufd,"Current\",\"icon\":\"mdi:alpha-a-circle-outline\",\"uniq_id\":\"Current_");
 	strcat(bufd,tESP8266Addr);
 	strcat(bufd,"\",\"device\":{\"identifiers\":[\"ZMAi_");
 	strcat(bufd,tESP8266Addr);
@@ -390,12 +370,8 @@ void MqttPubSub () {
 	strcat(buft,"/5x");
 	strcat(buft,tESP8266Addr);
 	strcat(buft,"/config");
-	strcpy(bufd,"{\"name\":\"ZMAi");
-	if (zmainum)  {
-	itoa(zmainum,buff,10);
-	strcat(bufd, buff);
-	}
-	strcat(bufd,".Power\",\"icon\":\"mdi:flash-outline\",\"uniq_id\":\"Power_");
+	strcpy(bufd,"{\"name\":\"");
+	strcat(bufd,"Power\",\"icon\":\"mdi:flash-outline\",\"uniq_id\":\"Power_");
 	strcat(bufd,tESP8266Addr);
 	strcat(bufd,"\",\"device\":{\"identifiers\":[\"ZMAi_");
 	strcat(bufd,tESP8266Addr);
@@ -424,12 +400,8 @@ void MqttPubSub () {
 	strcat(buft,"/6x");
 	strcat(buft,tESP8266Addr);
 	strcat(buft,"/config");
-	strcpy(bufd,"{\"name\":\"ZMAi");
-	if (zmainum)  {
-	itoa(zmainum,buff,10);
-	strcat(bufd, buff);
-	}
-	strcat(bufd,".ApparentPower\",\"icon\":\"mdi:flash-outline\",\"uniq_id\":\"ApparentPower_");
+	strcpy(bufd,"{\"name\":\"");
+	strcat(bufd,"ApparentPower\",\"icon\":\"mdi:flash-outline\",\"uniq_id\":\"ApparentPower_");
 	strcat(bufd,tESP8266Addr);
 	strcat(bufd,"\",\"device\":{\"identifiers\":[\"ZMAi_");
 	strcat(bufd,tESP8266Addr);
@@ -459,12 +431,8 @@ void MqttPubSub () {
 	strcat(buft,"/7x");
 	strcat(buft,tESP8266Addr);
 	strcat(buft,"/config");
-	strcpy(bufd,"{\"name\":\"ZMAi");
-	if (zmainum)  {
-	itoa(zmainum,buff,10);
-	strcat(bufd, buff);
-	}
-	strcat(bufd,".PowerFactor\",\"icon\":\"mdi:flash-outline\",\"uniq_id\":\"PowerFactor_");
+	strcpy(bufd,"{\"name\":\"");
+	strcat(bufd,"PowerFactor\",\"icon\":\"mdi:flash-outline\",\"uniq_id\":\"PowerFactor_");
 	strcat(bufd,tESP8266Addr);
 	strcat(bufd,"\",\"device\":{\"identifiers\":[\"ZMAi_");
 	strcat(bufd,tESP8266Addr);
@@ -492,12 +460,8 @@ void MqttPubSub () {
 	strcat(buft,"/8x");
 	strcat(buft,tESP8266Addr);
 	strcat(buft,"/config");
-	strcpy(bufd,"{\"name\":\"ZMAi");
-	if (zmainum)  {
-	itoa(zmainum,buff,10);
-	strcat(bufd, buff);
-	}
-	strcat(bufd,".Energy\",\"icon\":\"mdi:circle-slice-3\",\"uniq_id\":\"Energy_");
+	strcpy(bufd,"{\"name\":\"");
+	strcat(bufd,"Energy\",\"icon\":\"mdi:circle-slice-3\",\"uniq_id\":\"Energy_");
 	strcat(bufd,tESP8266Addr);
 	strcat(bufd,"\",\"device\":{\"identifiers\":[\"ZMAi_");
 	strcat(bufd,tESP8266Addr);
@@ -526,12 +490,8 @@ void MqttPubSub () {
 	strcat(buft,"/9x");
 	strcat(buft,tESP8266Addr);
 	strcat(buft,"/config");
-	strcpy(bufd,"{\"name\":\"ZMAi");
-	if (zmainum)  {
-	itoa(zmainum,buff,10);
-	strcat(bufd, buff);
-	}
-	strcat(bufd,".EnergyYesterday\",\"icon\":\"mdi:circle-slice-3\",\"uniq_id\":\"EnergyYesterday_");
+	strcpy(bufd,"{\"name\":\"");
+	strcat(bufd,"EnergyYesterday\",\"icon\":\"mdi:circle-slice-3\",\"uniq_id\":\"EnergyYesterday_");
 	strcat(bufd,tESP8266Addr);
 	strcat(bufd,"\",\"device\":{\"identifiers\":[\"ZMAi_");
 	strcat(bufd,tESP8266Addr);
@@ -560,12 +520,8 @@ void MqttPubSub () {
 	strcat(buft,"/10x");
 	strcat(buft,tESP8266Addr);
 	strcat(buft,"/config");
-	strcpy(bufd,"{\"name\":\"ZMAi");
-	if (zmainum)  {
-	itoa(zmainum,buff,10);
-	strcat(bufd, buff);
-	}
-	strcat(bufd,".EnergyToday\",\"icon\":\"mdi:circle-slice-3\",\"uniq_id\":\"EnergyToday_");
+	strcpy(bufd,"{\"name\":\"");
+	strcat(bufd,"EnergyToday\",\"icon\":\"mdi:circle-slice-3\",\"uniq_id\":\"EnergyToday_");
 	strcat(bufd,tESP8266Addr);
 	strcat(bufd,"\",\"device\":{\"identifiers\":[\"ZMAi_");
 	strcat(bufd,tESP8266Addr);
