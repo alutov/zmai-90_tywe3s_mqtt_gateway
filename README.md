@@ -3,7 +3,8 @@
 
 RUS | [ENG](https://translate.google.com/translate?hl=ru&sl=ru&tl=en&u=https%3A%2F%2Fgithub.com%2Falutov%2Fzmai-90_mqtt_gateway%2Fblob%2Fmaster%2FREADME.md)
 
-#### Текущая версия 2023.08.04.
+#### Текущая версия 2024.02.05.
+* 2024.02.05. При старте шлюз сканируются все WIFI AP с требуемыми параметрами и выбирается AP с лучшим уровнем. Актуально для меш систем. Добавлен выбор режима WIFI 802.11b/g/n в настройках.
 * 2023.08.04. Изменены имена объектов в Home Assistant Mqtt Discovery для совместимости с версией 2023.8.0.
 
 ## 1. Возможности
